@@ -1,44 +1,53 @@
-# How to enable Google Authenticator to Cockpit for Ubuntu
+# Enabling Google Authenticator for Cockpit on Ubuntu
 
-A method to setup MFA in cockpit to get more security
+This guide explains how to enable multi-factor authentication (MFA) in Cockpit using Google Authenticator, adding an additional layer of security.
 
-## Install google authenticator
+## Install Required Packages
 
-Install the library for google authenticator
+Install the Google Authenticator PAM module and QR code library:
 
 ```
 sudo apt-get install libpam-google-authenticator libqrencode-dev
 ```
 ---
+## Configure Google Authenticator
 
-Creates a qr code that you can scan with your mobile, make sure to save the code somewhere.
+Run the following command to generate your secret key and display a QR code. Scan this QR code using the Google Authenticator app on your mobile device. Be sure to save the secret key in a safe place in case you need to reconfigure the app.
 
 ```
 google-authenticator -t -d -f -r 3 -R 30 -W -Q UTF8
 ```
 ---
 
-Append the cockpit auth requirement to the login screen
+## Update Cockpit PAM Configuration
+
+To require MFA when logging in to Cockpit, append the following line to the PAM configuration file:
 
 ```
 sudo bash -c 'echo "auth required pam_google_authenticator.so nullok" >> /etc/pam.d/cockpit'
 ```
+> The nullok option allows users without a Google Authenticator configuration to log in normally. Remove it if you want to enforce MFA for all users.
+---
+## Restart Cockpit
 
-Now that everything is setup, restart cockpit
+Apply the changes by restarting the Cockpit service:
 
 ```
 sudo systemctl restart cockpit
 ```
+---
+## Optional: Disable MFA for Cockpit
 
-If you want to remove the MFA request from the login
-
-Go into `/etc/pam.d/cockpit` and delete the line `auth required pam_google_authenticator.so nullok`
+To disable MFA, simply remove the line added earlier from the PAM configuration file:
+1. Open `/etc/pam.d/cockpit` in a text editor.
+2. Delete the following line:
+> `auth required pam_google_authenticator.so nullok`
 
 Login and see if it works.
 
 ## Troubleshoot
 
-If the time of your server and your phone is no correct, the server may not recognize the MFA code.
+If the date and time of your server and your phone are no correct, the server may not recognize the MFA code.
 
 ## Source
 
