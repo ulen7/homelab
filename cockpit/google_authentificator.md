@@ -42,12 +42,13 @@ To disable MFA, simply remove the line added earlier from the PAM configuration 
 1. Open `/etc/pam.d/cockpit` in a text editor.
 2. Delete the following line:
 > `auth required pam_google_authenticator.so nullok`
-
-Login and see if it works.
-
-## Troubleshoot
-
-If the date and time of your server and your phone are no correct, the server may not recognize the MFA code.
+3. Restart cockpit
+> sudo systemctl restart cockpit
+4. Login and see if it works.
+---
+## Troubleshooting
+- Time Sync Issues: Ensure the system time on your server matches the time on your mobile device. Use timedatectl to verify and configure time synchronization.
+- Access Locked: If you misconfigure MFA and are locked out, you can regain access by editing the PAM configuration from a recovery shell or via SSH (if not affected).
 
 ## Source
 
