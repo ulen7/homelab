@@ -52,5 +52,5 @@ To disable MFA, simply remove the line added earlier from the PAM configuration 
 
 ## Source
 
-- [Ubuntu SSH 2FA Tutorial](/https://ubuntu.com/tutorials/configure-ssh-2fa#1-overview)
-- [Reddit](/https://www.reddit.com/r/Ubuntu/comments/1cjkv3j/guide_how_to_enable_google_authenticator_to/)
+- [Ubuntu SSH 2FA Tutorial](https://ubuntu.com/tutorials/configure-ssh-2fa#1-overview)
+- [Reddit](https://www.reddit.com/r/Ubuntu/comments/1cjkv3j/guide_how_to_enable_google_authenticator_to/)
